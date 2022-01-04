@@ -112,8 +112,6 @@ class _HomePageState extends State<HomePage> {
               'From',
               style: labelStyle,
             ),
-
-            //Text((_numberFrom == null) ? '' : _numberFrom.toString()),
             DropdownButton<String>(
               isExpanded: true,
               items: _measures.map((String value) {
@@ -209,4 +207,3 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
-//80
