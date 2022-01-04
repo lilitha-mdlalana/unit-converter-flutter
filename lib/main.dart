@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   double? _numberFrom;
   String? _startMeasure;
   String? _convertedMeasure;
+  var _resultMessage;
   final List<String> _measures = [
     'meters',
     'kilometers',
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
     '6': [0, 0, 453.592, 0.453592, 0, 0, 1, 16],
     '7': [0, 0, 28.3495, 0.0283495, 3.28084, 0, 0.0625, 1],
   };
+
   @override
   void initState() {
     _numberFrom = 0;
@@ -161,7 +163,15 @@ class _HomePageState extends State<HomePage> {
               flex: 2,
             ),
             RaisedButton(
-              onPressed: () => true,
+              onPressed: () {
+                if (_startMeasure!.isEmpty ||
+                    _convertedMeasure!.isEmpty ||
+                    _numberFrom == 0) {
+                  return;
+                } else {
+                  convert(_numberFrom!, _startMeasure!, _convertedMeasure!);
+                }
+              },
               child: Text(
                 'Convert',
                 style: inputStyle,
@@ -171,7 +181,7 @@ class _HomePageState extends State<HomePage> {
               flex: 2,
             ),
             Text(
-              (_numberFrom == null) ? '' : _numberFrom.toString(),
+              (_resultMessage == null) ? '' : _resultMessage,
               style: labelStyle,
             ),
             const Spacer(
@@ -188,6 +198,15 @@ class _HomePageState extends State<HomePage> {
     int? nTo = _measuresMap[to];
     var multiplier = _formulas[nFrom.toString()][nTo];
     var result = value * multiplier;
+    if (result == 0) {
+      _resultMessage = 'This conversion cannot be perfomed';
+    } else {
+      _resultMessage =
+          '${_numberFrom.toString()} $_startMeasure are ${result.toString()} $_convertedMeasure';
+    }
+    setState(() {
+      _resultMessage = _resultMessage;
+    });
   }
 }
 //80
